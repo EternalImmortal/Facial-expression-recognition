@@ -26,6 +26,11 @@ transform_test = transforms.Compose([
     transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops]))
 ])
 
+
+
+publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
+publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_size=batch_size,
+                                                    num_workers=4)
 trained_model = torch.load(model_path)
 print("Load weight model with {} epoch".format(trained_model["epoch"]))
 
@@ -33,6 +38,8 @@ model = VGG(args.model_name)
 model.load_state_dict(trained_model["model_weights"])
 model.to(device)
 model.eval()
+
+
 publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
 publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_size=batch_size,
                                                     num_workers=4)
