@@ -13,7 +13,7 @@ class FER2013(Dataset):
             assert self.split in {"TRAIN", "PUBLIC_TEST", "PRIVATE_TEST"}
 
         dataset = pd.read_csv(csv_file)
-        print(dataset.head(2))
+        # print(dataset.head(2))
 
         self.transform = transform
         if self.split == "TRAIN":
@@ -33,7 +33,9 @@ class FER2013(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        image = list(map(int, self.data["pixels"].iloc[idx].split(" ")))
+        # image = list(map(int, self.data["pixels"].iloc[idx].split(" ")))
+        image = list(map(int, self.data.iloc[idx, 2].split(" ")))
+
         image = np.array(image)
         image = image.reshape(48, 48).astype(np.uint8)
 
@@ -44,5 +46,5 @@ class FER2013(Dataset):
         if self.transform is not None:
             image = self.transform(image)
 
-        target = self.data["emotion"].iloc[idx]
+        target = self.data.iloc[idx, 0]
         return image, target
