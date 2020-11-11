@@ -8,10 +8,10 @@ from torchvision import transforms
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--dataset_root", default="fer2013/fer2013.csv", help="Path to the data folder")
+ap.add_argument("--dataset_root", default="/home/renjie/dataset/FER2013/train.csv", help="Path to the data folder")
 ap.add_argument("--bs", default=8, type=int, help="Batch size for evaluating")
 ap.add_argument("--num_workers", default=4, type=int, help="Number of workers")
-ap.add_argument("--trained_model", default="model_state.pth.tar", type=str,
+ap.add_argument("--trained_model", default="/home/renjie/code/model_state.pth.tar", type=str,
                 help="Trained state_dict file path to open")
 ap.add_argument("--model_name", default="VGG19", type=str, help="name model")
 args = ap.parse_args()
