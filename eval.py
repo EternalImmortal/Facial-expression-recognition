@@ -20,7 +20,7 @@ data_path = args.dataset_root
 batch_size = args.bs
 model_path = args.trained_model
 classes = ('Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral')
-crop_size = 40
+crop_size = 44
 transform_test = transforms.Compose([
     transforms.TenCrop(crop_size),
     transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops]))
