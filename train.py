@@ -112,7 +112,6 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
             if phase == 'val':
                 val_acc_history.append(epoch_acc)
         save_checkpoint(epoch, best_model_wts, optimizer)
-        logging.info()
 
         end_time = datetime.datetime.now()
         print("training time for this epoch: " + str(end_time - start_time))
