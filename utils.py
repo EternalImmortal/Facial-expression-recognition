@@ -4,6 +4,7 @@ import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 classes = ('Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral')
 
+
 def save_checkpoint(epoch, model, optimizer):
     '''
         Save model checkpoint
@@ -12,31 +13,37 @@ def save_checkpoint(epoch, model, optimizer):
     filename = "model_state.pth.tar"
     torch.save(state, filename)
 
+
 def set_lr(optimizer, lr):
     for group in optimizer.param_groups:
         group['lr'] = lr
 
+
 def clip_gradient(optimizer, grad_clip):
     for group in optimizer.param_groups:
-        #print(group['params'])
+        # print(group['params'])
         for param in group['params']:
             param.grad.data.clamp_(-grad_clip, grad_clip)
+
 
 def eval(model, test_loader):
     correct = 0
     total = 0
     with torch.no_grad():
         for (images, labels) in test_loader:
+            # batch_size * crops_number * channel * height * weight
             bs, ncrops, c, h, w = np.shape(images)
             images = images.view(-1, c, h, w)
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             outputs = outputs.view(bs, ncrops, -1).mean(1)
-            _, predicted = torch.max(outputs.data, 1)
+            # return values, indices
+            _, predicted = torch.max(outputs.data, dim=1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     print('Accuracy of the network on the test images: %2f %%' % (100 * correct / total))
-    
+
+
 def detail_eval(model, test_loader):
     class_correct = list(0. for i in range(7))
     class_total = list(0. for i in range(7))
@@ -53,7 +60,6 @@ def detail_eval(model, test_loader):
                 label = labels[i]
                 class_correct[label] += c[i].item()
                 class_total[label] += 1
-
 
     for i in range(7):
         print('Accuracy of %5s : %2f (%d / %d) %%' % (
