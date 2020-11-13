@@ -10,7 +10,6 @@ from utils import save_checkpoint, set_lr, clip_gradient
 import torch.optim as optim
 import argparse
 
-
 # 初始化log
 import logging
 import datetime
@@ -70,7 +69,7 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
             decay_factor = learning_rate_decay_rate ** frac
             current_lr = lr * decay_factor
             set_lr(optimizer, current_lr)
-            logging.info("Learning rate: ", current_lr)
+            logging.info("Learning rate: " + str(current_lr))
         for phase in ["train", "val"]:
             if phase == "train":
                 model.train()
