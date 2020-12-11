@@ -51,7 +51,8 @@ def detail_eval(model, test_loader):
         for images, labels in test_loader:
             bs, ncrops, c, h, w = np.shape(images)
             images = images.view(-1, c, h, w)
-            images, labels = images.to(device), labels.to(device)
+            images = images.to(device)
+            labels = torch.as_tensor(labels, dtype=torch.long, device=device)
             outputs = model(images)
             outputs = outputs.view(bs, ncrops, -1).mean(1)
             _, predicted = torch.max(outputs, 1)
