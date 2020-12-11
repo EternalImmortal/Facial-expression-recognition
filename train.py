@@ -24,7 +24,9 @@ logging.getLogger('').addHandler(console)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--dataset_root", default="/Users/WeiJoseph/mystuff/Independent_Project_2020Fall/data/masked_fer2013.csv", help="path to dataset")
+ap.add_argument("--dataset_root",
+                default="/Users/WeiJoseph/mystuff/Independent_Project_2020Fall/data/masked_fer2013.csv",
+                help="path to dataset")
 ap.add_argument("--model_name", default="VGG19", type=str, help="name model")
 ap.add_argument("--checkpoint", default=None, help="path to the checkpoint")
 ap.add_argument("--bs", default=128, type=int, help="batch size for training")
@@ -84,7 +86,8 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
                     bs, ncrops, c, h, w = np.shape(inputs)
                     inputs = inputs.view(-1, c, h, w)  # (bs*n_crops, c, h, w)
                 inputs = inputs.to(device)
-                labels = labels.to(device)
+                # labels = labels.to(device)
+                labels = torch.as_tensor(labels, dtype=torch.long, device=device)
 
                 optimizer.zero_grad()
                 with torch.set_grad_enabled(phase == 'train'):
