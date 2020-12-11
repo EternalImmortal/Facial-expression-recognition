@@ -9,6 +9,7 @@ import time
 from utils import save_checkpoint, set_lr, clip_gradient
 import torch.optim as optim
 import argparse
+from utils import eval, detail_eval
 
 # 初始化log
 import logging
