@@ -117,6 +117,7 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
 
         end_time = datetime.datetime.now()
         print("training time for this epoch: " + str(end_time - start_time))
+        eval(model, private_dataloader)
 
     time_elapsed = time.time() - since
     logging.info('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
@@ -162,6 +163,11 @@ validation_loader = torch.utils.data.DataLoader(valid_data, batch_size=args.bs,
                                                 num_workers=args.num_workers)
 dataloader_dict = {"train": train_loader, "val": validation_loader}
 dataloader_length = {"train": len(train_loader.dataset), "val": len(validation_loader.dataset)}
+
+private_data = FER2013_MASK(args.dataset_root, split="PRIVATE_TEST", transform=transform_test)
+private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=args.bs,
+                                                 num_workers=4)
+
 criterion = nn.CrossEntropyLoss()
 model = model.to(device)
 
