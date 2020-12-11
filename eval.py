@@ -1,6 +1,6 @@
 import torch
 from vgg import VGG
-from datasets import FER2013
+from datasets import FER2013, FER2013_MASK
 from utils import eval, detail_eval
 import argparse
 from torchvision import transforms
@@ -8,7 +8,8 @@ from torchvision import transforms
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--dataset_root", default="/Users/WeiJoseph/mystuff/Independent_Project_2020Fall/data/masked_fer2013.csv",
+ap.add_argument("--dataset_root",
+                default="/Users/WeiJoseph/mystuff/Independent_Project_2020Fall/data/masked_fer2013.csv",
                 help="Path to the data folder")
 ap.add_argument("--bs", default=8, type=int, help="Batch size for evaluating")
 ap.add_argument("--num_workers", default=4, type=int, help="Number of workers")
@@ -27,7 +28,8 @@ transform_test = transforms.Compose([
     transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops]))
 ])
 
-publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
+# publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
+publictest_dataset = FER2013_MASK(data_path, split="PUBLIC_TEST", transform=transform_test)
 publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_size=batch_size,
                                                     num_workers=4)
 trained_model = torch.load(model_path)
@@ -38,11 +40,13 @@ model.load_state_dict(trained_model["model_weights"])
 model.to(device)
 model.eval()
 
-publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
+# publictest_dataset = FER2013(data_path, split="PUBLIC_TEST", transform=transform_test)
+publictest_dataset = FER2013_MASK(data_path, split="PUBLIC_TEST", transform=transform_test)
 publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_size=batch_size,
                                                     num_workers=4)
 
-private_data = FER2013(data_path, split="PRIVATE_TEST", transform=transform_test)
+# private_data = FER2013(data_path, split="PRIVATE_TEST", transform=transform_test)
+private_data = FER2013_MASK(data_path, split="PRIVATE_TEST", transform=transform_test)
 private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=batch_size,
                                                  num_workers=4)
 

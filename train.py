@@ -1,7 +1,7 @@
 import torch
 from torchvision import transforms
 from vgg import VGG
-from datasets import FER2013
+from datasets import FER2013_MASK
 import numpy as np
 import torch.nn as nn
 import copy
@@ -151,8 +151,8 @@ else:
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=0.9,
                               weight_decay=5e-4)
 
-data = FER2013(args.dataset_root, split="TRAIN", transform=transform_train)
-valid_data = FER2013(args.dataset_root, split="PUBLIC_TEST", transform=transform_test)
+data = FER2013_MASK(args.dataset_root, split="TRAIN", transform=transform_train)
+valid_data = FER2013_MASK(args.dataset_root, split="PUBLIC_TEST", transform=transform_test)
 train_loader = torch.utils.data.DataLoader(data, batch_size=args.bs, shuffle=True,
                                            num_workers=args.num_workers)
 validation_loader = torch.utils.data.DataLoader(valid_data, batch_size=args.bs,
