@@ -35,8 +35,9 @@ publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_si
 trained_model = torch.load(model_path)
 print("Load weight model with {} epoch".format(trained_model["epoch"]))
 
-model = VGG(args.model_name)
-model.load_state_dict(trained_model["model_weights"])
+# model = VGG(args.model_name)
+# model.load_state_dict(trained_model["model_weights"])
+model = torch.load('VGG19')
 model.to(device)
 model.eval()
 

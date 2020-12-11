@@ -6,7 +6,7 @@ import numpy as np
 import torch.nn as nn
 import copy
 import time
-from utils import save_checkpoint, set_lr, clip_gradient
+from utils import save_checkpoint, set_lr, clip_gradient, save_whole_model
 import torch.optim as optim
 import argparse
 from utils import eval, detail_eval
@@ -110,12 +110,12 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
             logging.info('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
 
             if phase == 'val' and epoch_acc > best_acc:
-                print('saving model with acc of ' + str(epoch_acc))
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
             if phase == 'val':
                 val_acc_history.append(epoch_acc)
-        save_checkpoint(epoch, best_model_wts, optimizer)
+        # save_checkpoint(epoch, best_model_wts, optimizer, best_acc)
+        save_whole_model(model, best_acc)
 
         end_time = datetime.datetime.now()
         print("training time for this epoch: " + str(end_time - start_time))

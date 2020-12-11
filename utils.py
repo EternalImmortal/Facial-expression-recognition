@@ -5,13 +5,21 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 classes = ('Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral')
 
 
-def save_checkpoint(epoch, model, optimizer):
+def save_checkpoint(epoch, model, optimizer, best_acc):
     '''
         Save model checkpoint
     '''
+    print('saving model with acc of ' + str(best_acc))
     state = {'epoch': epoch, "model_weights": model, "optimizer": optimizer}
     filename = "model_state.pth.tar"
     torch.save(state, filename)
+
+
+def save_whole_model(model, best_acc):
+    print('saving whole model')
+    model_path = 'VGG19'
+    print('finished saving model of acc ' + str(best_acc))
+    torch.save(model, model_path)
 
 
 def set_lr(optimizer, lr):
