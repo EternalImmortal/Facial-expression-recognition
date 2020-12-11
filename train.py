@@ -110,6 +110,7 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
             logging.info('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
 
             if phase == 'val' and epoch_acc > best_acc:
+                print('saving model with acc of ' + str(epoch_acc))
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
             if phase == 'val':
@@ -125,6 +126,7 @@ def train_model(model, dataloaders, criterion, optimizer, start_epoch, num_epoch
     logging.info('Best val Acc: {:4f}'.format(best_acc))
 
     model.load_state_dict(best_model_wts)
+    eval(model, private_dataloader)
     return model, val_acc_history
 
 
