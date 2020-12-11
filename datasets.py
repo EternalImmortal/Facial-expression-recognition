@@ -19,15 +19,15 @@ class FER2013(Dataset):
         if self.split == "TRAIN":
             # self.data = dataset[dataset["Usage"] == "Training"]
             self.data = dataset[dataset.iloc[:, 1] == "Training"]
-            assert len(self.data) == 28709
+            # assert len(self.data) == 28709
         elif self.split == "PUBLIC_TEST":
             # self.data = dataset[dataset["Usage"] == "PublicTest"]
             self.data = dataset[dataset.iloc[:, 1] == 'PublicTest']
-            assert len(self.data) == 3589
+            # assert len(self.data) == 3589
         else:
             # self.data = dataset[dataset["Usage"] == "PrivateTest"]
             self.data = dataset[dataset.iloc[:, 1] == "PrivateTest"]
-            assert len(self.data) == 3589
+            # assert len(self.data) == 3589
 
     def __len__(self):
         return len(self.data)

@@ -24,7 +24,7 @@ logging.getLogger('').addHandler(console)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--dataset_root", default="/home/renjie/dataset/FER2013/icml_face_data.csv", help="path to dataset")
+ap.add_argument("--dataset_root", default="/Users/WeiJoseph/mystuff/Independent_Project_2020Fall/data/masked_fer2013.csv", help="path to dataset")
 ap.add_argument("--model_name", default="VGG19", type=str, help="name model")
 ap.add_argument("--checkpoint", default=None, help="path to the checkpoint")
 ap.add_argument("--bs", default=128, type=int, help="batch size for training")
