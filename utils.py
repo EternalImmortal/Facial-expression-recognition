@@ -1,6 +1,9 @@
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import plot_confusion_matrix
 
@@ -78,13 +81,11 @@ def detail_eval(model, test_loader):
             classes[i], 100 * class_correct[i] / class_total[i], class_correct[i], class_total[i]))
 
 
-def same(x):
-    return x
-
-
-def confuse_matrix(model, test_loader):
-    total_predicted = [1]
-    total_labels = [1]
+def save_data(model, test_loader):
+    total_predicted = []
+    total_labels = []
+    total_predicted = np.array(total_predicted)
+    total_labels = np.array(total_labels)
     with torch.no_grad():
         for images, labels in test_loader:
             bs, ncrops, c, h, w = np.shape(images)
@@ -94,7 +95,9 @@ def confuse_matrix(model, test_loader):
             outputs = model(images)
             outputs = outputs.view(bs, ncrops, -1).mean(1)
             _, predicted = torch.max(outputs, 1)
-
-    plot_confusion_matrix(estimator=same(total_predicted), X=total_predicted, y_true=total_labels)
-    plt.savefig('./')
-    plt.show()
+            total_predicted = np.append(total_predicted, predicted)
+            total_labels = np.append(total_labels, labels)
+    print(total_predicted.shape)
+    print(total_labels.shape)
+    np.save(total_predicted, 'total_predicted.npy')
+    np.save(total_labels, 'total_labels.npy')

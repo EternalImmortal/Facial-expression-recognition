@@ -1,7 +1,7 @@
 import torch
 from vgg import VGG
 from datasets import FER2013, FER2013_MASK
-from utils import eval, detail_eval, confuse_matrix
+from utils import eval, detail_eval, save_data
 import argparse
 from torchvision import transforms
 
@@ -60,4 +60,5 @@ private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=batch_
 # eval(model, private_dataloader)
 # detail_eval(model, private_dataloader)
 # print("-" * 10)
-confuse_matrix(model, private_dataloader)
+
+save_data(model, private_dataloader)
