@@ -1,11 +1,6 @@
 import torch
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
 
-from sklearn.metrics import plot_confusion_matrix
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 classes = ('Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral')
@@ -82,6 +77,7 @@ def detail_eval(model, test_loader):
 
 
 def save_data(model, test_loader):
+    print('testing for data----')
     total_predicted = []
     total_labels = []
     total_predicted = np.array(total_predicted)
