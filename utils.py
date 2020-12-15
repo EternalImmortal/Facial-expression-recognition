@@ -99,5 +99,5 @@ def save_data(model, test_loader):
             total_labels = np.append(total_labels, labels.cpu())
     print(total_predicted.shape)
     print(total_labels.shape)
-    np.save(total_predicted, 'total_predicted.npy')
-    np.save(total_labels, 'total_labels.npy')
+    np.save('total_predicted.npy', total_predicted)
+    np.save('total_labels.npy', total_labels)
