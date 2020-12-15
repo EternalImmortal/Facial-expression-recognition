@@ -1,7 +1,7 @@
 import torch
 from vgg import VGG
 from datasets import FER2013, FER2013_MASK
-from utils import eval, detail_eval
+from utils import eval, detail_eval, confuse_matrix
 import argparse
 from torchvision import transforms
 
@@ -32,8 +32,8 @@ transform_test = transforms.Compose([
 publictest_dataset = FER2013_MASK(data_path, split="PUBLIC_TEST", transform=transform_test)
 publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_size=batch_size,
                                                     num_workers=4)
-trained_model = torch.load(model_path)
-print("Load weight model with {} epoch".format(trained_model["epoch"]))
+# trained_model = torch.load(model_path)
+# print("Load weight model with {} epoch".format(trained_model["epoch"]))
 
 # model = VGG(args.model_name)
 # model.load_state_dict(trained_model["model_weights"])
@@ -51,12 +51,13 @@ private_data = FER2013_MASK(data_path, split="PRIVATE_TEST", transform=transform
 private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=batch_size,
                                                  num_workers=4)
 
-print("Evaluation validation (public test) dataset...")
-eval(model, publictest_dataloader)
-detail_eval(model, publictest_dataloader)
-print("-" * 10)
-
-print("Evaluation public private dataset...")
-eval(model, private_dataloader)
-detail_eval(model, private_dataloader)
-print("-" * 10)
+# print("Evaluation validation (public test) dataset...")
+# eval(model, publictest_dataloader)
+# detail_eval(model, publictest_dataloader)
+# print("-" * 10)
+#
+# print("Evaluation public private dataset...")
+# eval(model, private_dataloader)
+# detail_eval(model, private_dataloader)
+# print("-" * 10)
+confuse_matrix(model, private_dataloader)

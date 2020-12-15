@@ -1,5 +1,8 @@
 import torch
 import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.metrics import plot_confusion_matrix
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 classes = ('Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral')
@@ -73,3 +76,25 @@ def detail_eval(model, test_loader):
     for i in range(7):
         print('Accuracy of %5s : %2f (%d / %d) %%' % (
             classes[i], 100 * class_correct[i] / class_total[i], class_correct[i], class_total[i]))
+
+
+def same(x):
+    return x
+
+
+def confuse_matrix(model, test_loader):
+    total_predicted = [1]
+    total_labels = [1]
+    with torch.no_grad():
+        for images, labels in test_loader:
+            bs, ncrops, c, h, w = np.shape(images)
+            images = images.view(-1, c, h, w)
+            images = images.to(device)
+            labels = torch.as_tensor(labels, dtype=torch.long, device=device)
+            outputs = model(images)
+            outputs = outputs.view(bs, ncrops, -1).mean(1)
+            _, predicted = torch.max(outputs, 1)
+
+    plot_confusion_matrix(estimator=same(total_predicted), X=total_predicted, y_true=total_labels)
+    plt.savefig('./')
+    plt.show()
