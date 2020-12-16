@@ -37,7 +37,10 @@ publictest_dataloader = torch.utils.data.DataLoader(publictest_dataset, batch_si
 
 # model = VGG(args.model_name)
 # model.load_state_dict(trained_model["model_weights"])
-model = torch.load('VGG19')
+if torch.cuda.is_available():
+    model = torch.load('VGG19')
+else:
+    model = torch.load('VGG19', map_location=torch.device('cpu'))
 model.to(device)
 model.eval()
 
@@ -57,8 +60,8 @@ private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=batch_
 # print("-" * 10)
 #
 # print("Evaluation public private dataset...")
-# eval(model, private_dataloader)
+eval(model, private_dataloader)
 # detail_eval(model, private_dataloader)
 # print("-" * 10)
 
-save_data(model, private_dataloader)
+# save_data(model, private_dataloader)

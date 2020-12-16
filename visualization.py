@@ -11,12 +11,15 @@ predicted_private = np.load('total_predicted.npy')
 # sns.set()
 # f, ax = plt.subplots()
 #
-# C2 = confusion_matrix(y_true=true, y_pred=predicted, labels=[0, 1, 2, 3, 4, 5, 6], normalize='true')
+# C2 = confusion_matrix(y_true=true_private, y_pred=predicted_private, labels=[0, 1, 2, 3, 4, 5, 6], normalize='true')
 # sns.heatmap(C2, annot=True, ax=ax)
 #
 # ax.set_title('confusion matrix')  # 标题
 # ax.set_xlabel('predict')  # x轴
 # ax.set_ylabel('true')  # y轴
+#
+# plt.show()
+# plt.cla()
 
 class_true = list(0. for i in range(7))
 class_predicted = list(0. for j in range(7))
