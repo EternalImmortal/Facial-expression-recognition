@@ -70,6 +70,8 @@ def detail_eval(model, test_loader):
                 class_correct[label] += c[i].item()
                 class_total[label] += 1
 
+    np.save('total.npy', np.array(class_total))
+    np.save('correct.npy', np.array(class_correct))
     for i in range(7):
         print('Accuracy of %5s : %2f (%d / %d) %%' % (
             classes[i], 100 * class_correct[i] / class_total[i], class_correct[i], class_total[i]))

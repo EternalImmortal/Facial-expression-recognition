@@ -59,9 +59,9 @@ private_dataloader = torch.utils.data.DataLoader(private_data, batch_size=batch_
 # detail_eval(model, publictest_dataloader)
 # print("-" * 10)
 #
-# print("Evaluation public private dataset...")
+print("Evaluation public private dataset...")
 eval(model, private_dataloader)
-# detail_eval(model, private_dataloader)
-# print("-" * 10)
+detail_eval(model, private_dataloader)
+print("-" * 10)
 
 # save_data(model, private_dataloader)
